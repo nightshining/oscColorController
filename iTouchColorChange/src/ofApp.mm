@@ -33,14 +33,9 @@ void ofApp::setup(){
     colors[12].set(117, 150, 131);
 
 
-
-
-
-
-
+    counter = 0.0;
+    patternOn = false;
     
-
-
     
 }
 
@@ -54,16 +49,19 @@ void ofApp::update(){
         ofxOscMessage m;
         receiver.getNextMessage( &m );
         
-        // check for mouse moved message
         if( m.getAddress() == "/colorChange" ){
             // both the arguments are int32's
             colorChange = m.getArgAsInt32( 0 );
         }
         
-        // check for mouse moved message
         if( m.getAddress() == "/alpha" ){
             // both the arguments are int32's
             alpha = m.getArgAsInt32( 0 );
+        }
+        
+        if( m.getAddress() == "/triggerObject" ){
+            // both the arguments are int32's
+            patternOn = m.getArgAsInt32( 0 );
         }
         
     }
@@ -78,7 +76,12 @@ void ofApp::update(){
         
         colors[i].a = alpha;
     }
+
     
+    counter += 0.33f;
+    
+    
+
 }
 
 
@@ -96,8 +99,23 @@ void ofApp::draw(){
     ofPopStyle();
     
     
-   
-    
+    if (patternOn) {
+    for (int i = 50; i < ofGetWidth(); i+=100) {
+        for (int j = 50; j < ofGetHeight(); j+=100) {
+            
+        int noiseCircles = sin(j + counter) * 50;
+        ofPushStyle();
+        ofPushMatrix();
+        ofTranslate(i , j + noiseCircles );
+        ofSetCircleResolution(60);
+        ofSetColor(0);
+        ofFill();
+        ofCircle(0, 0, 25);
+        ofPopMatrix();
+        ofPopStyle();
+        }
+    }
+    }
     
 }
 

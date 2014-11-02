@@ -28,6 +28,10 @@ class ofApp : public ofxiOSApp {
     int colorChange;
     float alpha;
     vector<ofColor> colors;
+    
+    //object
+    float counter;
+    bool patternOn;
 };
 
 
